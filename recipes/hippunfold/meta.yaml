@@ -1,17 +1,19 @@
 {% set name = "hippunfold" %}
 {% set version = "2.0.0" %}
+{% set ref = "d3fc75e36b323fbdd926e25bf8156637504a0c30" %}
 
 package:
   name: {{ name|lower }}
   version: {{ version }}
 
 source:
-  url: https://github.com/khanlab/hippunfold/archive/refs/heads/dev-v2.0.0.zip
-  sha256: b73b5186f9806c92b88adb094629fe6f0cf07a21eb485c0a1f6b2b588cbf5f7f
+  url: https://github.com/khanlab/hippunfold/archive/{{ ref }}.tar.gz
+  sha256: c915eec1da79f18895932c56a9c982ef148391aa21afa030df8f75d9d18ceaab
 
 build:
   entry_points: 
     - hippunfold = hippunfold.run:app.run
+    - hippunfold-quick = hippunfold.run_quick:main
   noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
@@ -25,17 +27,9 @@ requirements:
     - pip
   run:
     - python >=3.9,<4.0
-    - snakemake >=7.20,<8  # [py<311]
-    - snakemake >=8.1.2  # [py>=311]
     - snakebids >=0.14.0
     - appdirs >=1.4.4,<2.0.0
-    - jinja2 >=3.0.3,<4.0.0
-    - pygraphviz
-    - pygments >=2.10.0,<3.0.0
     - pulp <2.8.0  # [py<311]
-    - pandas <=2.0.3  # [py<39]
-    - pandas >=2.1.1  # [py>=312]
-    - nibabel >=5.3.2,<6.0.0
     - pyvista >=0.44.2,<0.45.0
 
 
@@ -44,6 +38,7 @@ test:
     - hippunfold
   commands:
     - hippunfold --help
+    - hippunfold-quick --help
 
 
 about:
